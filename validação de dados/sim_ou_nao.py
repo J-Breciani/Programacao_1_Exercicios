@@ -13,11 +13,11 @@ def main():
 
     # processamento e saída dos dados
 
-    while resposta != "S" and sexo != "N":
+    while resposta != "S" and resposta != "N":
         print("RESPOSTA INCORRETA, DIGITE S OU N")
-        sexo = input("Informe S ou N: ").upper()
+        resposta = input("Informe S ou N: ").upper()
 
-    if sexo == "S" or sexo == "N":
+    if resposta == "S" or resposta == "N":
         print("RESPOSTA CORRETA")
 
 
