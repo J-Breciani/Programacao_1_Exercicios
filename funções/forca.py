@@ -23,59 +23,72 @@ Para testar tire as interações dos inputs
 
 Não é permitido a utilização de LISTAS
 """
-def f_forca(palavra):
-    # declaração de variáveis:
-    chute = str()
-    palavra_formada = str()
-    tentativas = int()
-    erros = str()
-    letras_acertadas = str()
-    dica = str()
-    flag = str()
-    # entrada de dados: 
-    tentativas = 0
-    for i in range(len(palavra)):
-        dica += "_ "
-    print(dica)
-    # processamento: 
-    while(tentativas <= 6 or flag != palavra):
-        chute = input("").upper()
-        if (chute in palavra):
-            letras_acertadas += chute
+def f_geraForca(s):
+    nova = ""
+    for i in range(len(s)):
+        nova += "_"
+    return nova
+
+def f_print(f):
+    for i in range(len(f)):
+        print(f[i],end=" ")
+    print()
+
+def f_verificaLetra(s,l,f):
+    nova = ""
+    for i in range(len(s)):
+        if (s[i] == l):
+            nova += s[i]
         else:
-            tentativas += 1
-            erros += chute
-        palavra_formada = ""
-        for i in range(len(palavra)):
-            if palavra[i] in letras_acertadas:  
-                palavra_formada += palavra[i] + " "
-            else:
-                palavra_formada += "_ "
-        print(palavra_formada)
-        print(erros)
-        for a in len(palavra_formada):
-            if (palavra_formada[i] != " "):
-                flag += palavra_formada[a]
-    # saída de dados:
-    if (palavra_formada == palavra):
-        resultado = (f"Parabéns, você ganhou com {tentativas} jogadas")
+            nova += f[i]
+    return nova
+
+def f_forca(s,f,e):
+    if (f == s):
+        return 1
+    elif (e == 6):
+        return 2
     else:
-        resultado = (f"Que pena, você não acertou a palavra {palavra}")
-    return resultado
+        return 0
+
+def f_errada(l,s):
+    for i in range(len(s)):
+        if (l == s[i]):
+            return False
+    return True
 
 def main():
-
-    # declaração das variáveis:
-    palavraSecreta = str()
-    forca = str()
-    # entrada de dados:
-    palavraSecreta = input("").upper()
-    # processamento:
-    forca = f_forca(palavraSecreta)
-    # saída dos dados:
-    print(forca)
-
-    return 0 
+    erradas = ""
+    jogadas = 1
+    erros = 0
+    #segredo = "CAIXA"
+    segredo = input().upper()
+    forca = f_geraForca(segredo)
+    f_print(forca)
+    letra = input().upper()
+    if (f_errada(letra,segredo)):
+        erros += 1
+        erradas += letra
+    forca = f_verificaLetra(segredo,letra,forca)
+    continua = f_forca(segredo,forca,erros)
+    while (continua == 0):
+        f_print(forca)
+        print(erradas)
+        letra = input().upper()
+        jogadas += 1
+        if (f_errada(letra,segredo)):
+            erros += 1
+            erradas += letra
+        forca = f_verificaLetra(segredo,letra,forca)
+        continua = f_forca(segredo,forca,erros)        
+    if (continua == 1):
+        f_print(segredo)
+        print(f'Parabéns, você ganhou com {jogadas} jogadas ')
+    elif (continua == 2):
+        f_print(forca)
+        print(erradas)
+        print(f'Que pena, você não acertou a palavra {segredo}')
+    return 0
 
 if __name__ == "__main__":
     main()
